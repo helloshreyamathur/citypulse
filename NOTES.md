@@ -71,5 +71,5 @@ Takeaway: for "what street fest is happening this weekend," the reliable live pa
 - [x] robots.txt + terms check for all six sources; rank friendliest-first — see §1
 - [x] Check City data portal for special-event permit datasets — see §5
 - [x] Download neighborhoods GeoJSON; confirm all 15 names — see §4, saved to `data/neighborhoods.geojson`
-- [ ] Create Gemini API key; record live free-tier limits here
-- [ ] Register Reddit script app; record credentials in GitHub Actions secrets (never in code)
+- [x] Create Gemini API key — done. Default key on **Free tier**, project `gen-lang-client-0349131969`; validated via `/v1beta/models`. Stored as GitHub Actions secret + local gitignored `.env` (see `.env.example`). Still to record: exact per-model free-tier RPM/RPD limits.
+- [ ] Register Reddit script app — **DEFERRED (non-blocking)**. "create app" silently refreshed to the same page; most likely cause is an unverified email on the Reddit account (Reddit blocks API-app creation silently until email is verified). Reddit only powers the context-brief "chatter" layer, so it's safe to wire in later when that feature is built. Retry: verify email at reddit.com/settings/account, then reddit.com/prefs/apps → create app → type `script`, redirect uri `http://localhost:8080`.
