@@ -15,20 +15,20 @@ The goal is an empty but real product, plus reality-checking the assumptions eve
 
 Feasibility spike (do this first, ~half a day):
 
-- [ ] Check each of the six sources for scrapeability: robots.txt, terms, page structure. Rank friendliest to hardest; find an alternate for any that says no.
-- [ ] Verify Reddit access on a free tier for reading/searching threads; if it's blocked or too limited, decide the fallback for the chatter feature now, not in Phase 3
-- [ ] Confirm current Gemini free-tier limits and pick the fallback provider
-- [ ] Download the Chicago neighborhood boundaries GeoJSON and confirm all 15 curated neighborhoods exist with sane borders
-- [ ] Write findings as a short NOTES.md in the repo (also portfolio evidence: this is what real technical diligence looks like)
+- [x] Check each of the six sources for scrapeability: robots.txt, terms, page structure. Rank friendliest to hardest; find an alternate for any that says no. → NOTES §1
+- [ ] Verify Reddit access on a free tier for reading/searching threads; if it's blocked or too limited, decide the fallback for the chatter feature now, not in Phase 3 → feasibility confirmed (free tier fine); app-credential creation deferred (unverified-email block), non-blocking. NOTES §3
+- [ ] Confirm current Gemini free-tier limits and pick the fallback provider → key created + validated; exact live limits and fallback pick still open. NOTES §2
+- [x] Download the Chicago neighborhood boundaries GeoJSON and confirm all 15 curated neighborhoods exist with sane borders → data/neighborhoods.geojson; 12/15 exact, 3 flagged (Pilsen→"Lower West Side", South Loop→no polygon, Boystown label). NOTES §4
+- [x] Write findings as a short NOTES.md in the repo (also portfolio evidence: this is what real technical diligence looks like)
 
 Setup:
 
-- [ ] Create public GitHub repo (`citypulse`)
-- [ ] Install and set up Claude Code locally
-- [ ] Scaffold the app (Next.js) and push the first commit
-- [ ] Connect Vercel; empty app live at a real URL
-- [ ] Write CLAUDE.md v1: stack, folder structure, ground rules (no hardcoded keys, all app data reads from `/data` JSON, reference SPEC.md)
-- [ ] Create `prompts/` folder with a README stub
+- [x] Create public GitHub repo (`citypulse`)
+- [x] Install and set up Claude Code locally
+- [x] Scaffold the app (Next.js) and push the first commit
+- [x] Connect Vercel; empty app live at a real URL
+- [x] Write CLAUDE.md v1: stack, folder structure, ground rules (no hardcoded keys, all app data reads from `/data` JSON, reference SPEC.md)
+- [x] Create `prompts/` folder with a README stub
 
 You'll see: a live URL with a placeholder page. Feels like nothing; it's the hardest 20% of first-time setup done.
 
