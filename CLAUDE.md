@@ -20,9 +20,12 @@ CityPulse is a map-first neighborhood companion for Chicago. The **what and why*
 
 ```
 src/app/          Next.js App Router (layout.tsx, page.tsx, globals.css)
-data/             Pre-built JSON the app reads at build/runtime (e.g. neighborhoods.geojson)
+src/components/    React components (e.g. the map + side panel)
+src/lib/           Shared helpers + config (e.g. curated neighborhood list)
+data/             Pipeline-built JSON imported at build (servings, briefs, facts — added Phase 2)
+public/           Static assets, incl. static geodata served to the client
+                  (public/data/neighborhoods.geojson → fetched at /data/neighborhoods.geojson)
 prompts/          Versioned LLM prompts + notes on why each revision changed (portfolio evidence)
-public/           Static assets
 SPEC.md PLAN.md NOTES.md   Product spec, build plan, feasibility notes
 .env.example      Env var template; copy to .env (gitignored) for local runs
 ```

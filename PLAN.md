@@ -38,12 +38,12 @@ What you learn: repo, commit, deploy loop. Every later phase reuses this loop.
 
 The goal is the product's skeleton with placeholder data, ready for your first design crit.
 
-- [ ] Load Chicago neighborhood boundaries (GeoJSON from the Chicago Data Portal's neighborhood boundaries dataset, not the 77 community areas; the neighborhood set matches names like Wicker Park and Wrigleyville far better)
-- [ ] Map renders full-bleed with MapLibre + free OSM-based tiles, taking ~2/3 of the layout
-- [ ] 15 curated neighborhoods highlighted and clickable; all others visible, styled quieter, labeled "coming soon" on tap
-- [ ] Side panel: neighborhood name, placeholder daily serving (hand-written fake items), placeholder did-you-know
+- [x] Load Chicago neighborhood boundaries (GeoJSON from the Chicago Data Portal's neighborhood boundaries dataset, not the 77 community areas; the neighborhood set matches names like Wicker Park and Wrigleyville far better)
+- [x] Map renders full-bleed with MapLibre + free OSM-based tiles, taking ~2/3 of the layout — CARTO Positron (keyless, OSM-based)
+- [x] 15 curated neighborhoods highlighted and clickable; all others visible, styled quieter, labeled "coming soon" on tap
+- [x] Side panel: neighborhood name, placeholder daily serving (hand-written fake items), placeholder did-you-know
 - [ ] First-visit home neighborhood picker; choice saved in the browser; returning visits land there
-- [ ] Zoom behavior: neighborhood → surrounding areas → whole city
+- [ ] Zoom behavior: neighborhood → surrounding areas → whole city (basic city-fit done; per-neighborhood zoom-in still to do)
 
 You'll see: CityPulse with fake data. This is the design crit moment.
 
