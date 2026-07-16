@@ -3,12 +3,16 @@
 import { useEffect, useRef } from "react";
 import maplibregl, { type StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { curatedByDatasetName } from "@/lib/neighborhoods";
+import { CURATED, curatedByDatasetName } from "@/lib/neighborhoods";
 
 export type Selection = {
-  priNeigh: string;
+  /** Stable id: the curated display name, or the pri_neigh for a non-curated area. */
+  key: string;
   display: string;
   curated: boolean;
+  /** The dataset polygons that make up this selection (for the highlight layer). */
+  datasetNames: string[];
+  approximate?: boolean;
 };
 
 type Props = {
@@ -141,17 +145,23 @@ export default function NeighborhoodMap({ selected, onSelect }: Props) {
         id: "nbhd-selected",
         type: "fill",
         source: "nbhd",
-        filter: ["==", ["get", "pri_neigh"], selected?.priNeigh ?? ""],
+        filter: ["in", ["get", "pri_neigh"], ["literal", selected?.datasetNames ?? []]],
         paint: { "fill-color": SELECTED_FILL, "fill-opacity": 0.55 },
       });
 
-      // Curated labels as non-interactive HTML pills.
+      // One label per curated neighborhood, anchored on its primary polygon.
+      const byName = new Map<string, GeoJSON.Feature>();
       for (const f of gj.features) {
-        if (!f.properties?.curated || !f.geometry) continue;
-        const center = bboxCenter(f.geometry);
+        const pri = f.properties?.pri_neigh as string;
+        if (pri) byName.set(pri, f);
+      }
+      for (const c of CURATED) {
+        const primary = byName.get(c.datasetNames[0]);
+        if (!primary?.geometry) continue;
+        const center = bboxCenter(primary.geometry);
         if (!center) continue;
         const el = document.createElement("div");
-        el.textContent = f.properties.display as string;
+        el.textContent = c.display;
         el.style.cssText =
           "pointer-events:none;font:600 11px/1.2 system-ui,sans-serif;color:#312e81;" +
           "background:rgba(255,255,255,.7);padding:1px 5px;border-radius:6px;white-space:nowrap;";
@@ -161,11 +171,19 @@ export default function NeighborhoodMap({ selected, onSelect }: Props) {
       map.on("click", "nbhd-fill", (e) => {
         const props = e.features?.[0]?.properties;
         if (!props) return;
-        onSelect({
-          priNeigh: props.pri_neigh as string,
-          display: (props.display as string) ?? (props.pri_neigh as string),
-          curated: props.curated === true || props.curated === "true",
-        });
+        const pri = props.pri_neigh as string;
+        const c = curatedByDatasetName(pri);
+        if (c) {
+          onSelect({
+            key: c.display,
+            display: c.display,
+            curated: true,
+            datasetNames: c.datasetNames,
+            approximate: c.approximate,
+          });
+        } else {
+          onSelect({ key: pri, display: pri, curated: false, datasetNames: [pri] });
+        }
       });
       map.on("mouseenter", "nbhd-fill", () => {
         map.getCanvas().style.cursor = "pointer";
@@ -189,7 +207,11 @@ export default function NeighborhoodMap({ selected, onSelect }: Props) {
     if (!map) return;
     const apply = () => {
       if (!map.getLayer("nbhd-selected")) return;
-      map.setFilter("nbhd-selected", ["==", ["get", "pri_neigh"], selected?.priNeigh ?? ""]);
+      map.setFilter("nbhd-selected", [
+        "in",
+        ["get", "pri_neigh"],
+        ["literal", selected?.datasetNames ?? []],
+      ]);
     };
     if (map.getLayer("nbhd-selected")) apply();
     else map.once("idle", apply);

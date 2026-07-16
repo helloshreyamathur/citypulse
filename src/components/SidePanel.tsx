@@ -1,7 +1,6 @@
 "use client";
 
 import type { Selection } from "./NeighborhoodMap";
-import { curatedByDatasetName } from "@/lib/neighborhoods";
 import { placeholderFor } from "@/lib/placeholder";
 
 export default function SidePanel({ selected }: { selected: Selection | null }) {
@@ -30,15 +29,14 @@ export default function SidePanel({ selected }: { selected: Selection | null }) 
     );
   }
 
-  const curated = curatedByDatasetName(selected.priNeigh);
   const { serving, fact } = placeholderFor(selected.display);
 
   return (
     <Shell>
       <h2 className="text-xl font-semibold text-slate-900">{selected.display}</h2>
-      {curated?.approximate && (
+      {selected.approximate && (
         <p className="mt-1 text-xs text-amber-600">
-          Approximate boundary — shown as &ldquo;{selected.priNeigh}&rdquo; in the city data.
+          Approximate boundary — assembled from the city&rsquo;s neighborhood polygons.
         </p>
       )}
 
